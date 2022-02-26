@@ -1,0 +1,229 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- ========================= SECTION PAGETOP ========================= -->
+<section class="section-pagetop bg">
+	<div class="container">
+		<h2 class="title-page">Cửa Hàng</h2>
+	</div>
+	<!-- container //  -->
+</section>
+<!-- ========================= SECTION INTRO END// ========================= -->
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content padding-y">
+	<div class="container">
+		<div class="row">
+			<aside class="col-md-3">
+				<div class="card">
+					<article class="filter-group">
+						<header class="card-header">
+							<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="">
+								<i class="icon-control fa fa-chevron-down"></i>
+								<h6 class="title">Danh Mục</h6>
+							</a>
+						</header>
+						<div class="filter-content collapse show" id="collapse_1">
+							<div class="card-body">
+								<ul class="list-menu">
+									<li><a href="{% url 'store' %}">Tất cả sản phẩm</a></li>
+									{% for category in links %}
+									<li>
+										<a href="{{ category.get_url }}">{{ category.category_name }}</a>
+									</li>
+									{% endfor %}
+								</ul>
+							</div>
+							<!-- card-body.// -->
+						</div>
+					</article>
+					<!-- filter-group  .// -->
+					<article class="filter-group">
+						<header class="card-header">
+							<a href="#" data-toggle="collapse" data-target="#collapse_4" aria-expanded="true" class="">
+								<i class="icon-control fa fa-chevron-down"></i>
+								<h6 class="title">Kích Cỡ</h6>
+							</a>
+						</header>
+						<div class="filter-content collapse show" id="collapse_4">
+							<div class="card-body">
+								<label class="checkbox-btn">
+									<input type="checkbox" />
+									<span class="btn btn-light"> S </span>
+								</label>
+
+								<label class="checkbox-btn">
+									<input type="checkbox" />
+									<span class="btn btn-light"> M </span>
+								</label>
+
+								<label class="checkbox-btn">
+									<input type="checkbox" />
+									<span class="btn btn-light"> L </span>
+								</label>
+
+								<label class="checkbox-btn">
+									<input type="checkbox" />
+									<span class="btn btn-light"> XL </span>
+								</label>
+
+								<label class="checkbox-btn">
+									<input type="checkbox" />
+									<span class="btn btn-light"> 2XL </span>
+								</label>
+
+								<label class="checkbox-btn">
+									<input type="checkbox" />
+									<span class="btn btn-light"> 3XL </span>
+								</label>
+							</div>
+							<!-- card-body.// -->
+						</div>
+					</article>
+					<!-- filter-group .// -->
+
+					<article class="filter-group">
+						<header class="card-header">
+							<a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="true" class="">
+								<i class="icon-control fa fa-chevron-down"></i>
+								<h6 class="title">Khoảng Giá (vnd)</h6>
+							</a>
+						</header>
+						<div class="filter-content collapse show" id="collapse_3">
+							<div class="card-body">
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<label>Min</label>
+										<!-- <input class="form-control" placeholder="$0" type="number"> -->
+										<select class="mr-2 form-control">
+											<option value="0">0</option>
+											<option value="50000">50.000</option>
+											<option value="100000">100.000</option>
+											<option value="150000">150.000</option>
+											<option value="200000">200.000</option>
+											<option value="500000">500.000</option>
+											<option value="1000000">1.000.000</option>
+										</select>
+									</div>
+									<div class="form-group text-right col-md-6">
+										<label>Max</label>
+										<select class="mr-2 form-control">
+											<option value="50000">50.000</option>
+											<option value="100000">100.000</option>
+											<option value="150000">150.000</option>
+											<option value="200000">2000.000</option>
+											<option value="500000">500.000</option>
+											<option value="1000000">1.000.000</option>
+											<option value="2000000">2.000.000</option>
+										</select>
+									</div>
+								</div>
+								<!-- form-row.// -->
+								<button class="btn btn-block btn-primary">Tìm</button>
+							</div>
+							<!-- card-body.// -->
+						</div>
+					</article>
+					<!-- filter-group .// -->
+				</div>
+				<!-- card.// -->
+			</aside>
+			<!-- col.// -->
+			<main class="col-md-9">
+				<header class="border-bottom mb-4 pb-3">
+					<div class="form-inline">
+						<span class="mr-md-auto">Tìm thấy <b>{{ product_count }}</b> sản phẩm
+						</span>
+					</div>
+				</header>
+				<!-- sect-heading -->
+
+				<div class="row">
+					{% for product in products %}
+					<div class="col-md-4">
+						<figure class="card card-product-grid">
+							<div class="img-wrap">
+								<img src="{{ product.images.url }}" />
+							</div>
+							<figcaption class="info-wrap">
+								<div class="fix-height">
+									<a href="{{ product.get_url }}" class="title">{{ product.product_name }}</a>
+									<div class="price-wrap mt-2">
+										<span class="price"> {{ product.price }} đồng </span>
+									</div>
+								</div>
+								<a href="{{ product.get_url }}" class="btn btn-block btn-primary">Xem chi tiết</a>
+							</figcaption>
+						</figure>
+					</div>
+					{% endfor %}
+				</div>
+				{% if products %}
+				<nav class="mt-4" aria-label="Page navigation sample">
+					<ul class="pagination">
+						{% if products.has_previous %}
+						<li class="page-item">
+							<a class="page-link" href="{% url 'store' %}?page=1">Trang đầu</a>
+						</li>
+						<li class="page-item">
+							<a class="page-link"
+								href="{% url 'store' %}?page={{products.previous_page_number}}">Trang trước đó</a>
+						</li>
+						{% else %}
+						<li class="page-item disabled">
+							<a class="page-link" href="#">Trang Đầu</a>
+						</li>
+						<li class="page-item disabled">
+							<a class="page-link" href="#">Trang Trước Đó</a>
+						</li>
+						{% endif %}
+						{% if products.number|add:'-2' >= 1 %}
+						<li class="page-item">
+							<a class="page-link" href="{% url 'store' %}?page={{ products.number|add:'-2' }}">&hellip;</a>
+						</li>
+						{% endif %}
+						{% for page in products.paginator.page_range %}
+						{% if products.number|add:'-1' <= page and page <= products.number|add:'1' %}
+						{% if page == products.number %}
+						<li class="page-item active">
+							<a class="page-link" href="{% url 'store' %}?page={{ page }}">{{ page }}</a>
+						</li>
+						{% else %}
+						<li class="page-item">
+							<a class="page-link" href="{% url 'store' %}?page={{ page }}">{{ page }}</a>
+						</li>
+						{% endif %}
+						{% endif %}
+						{% endfor %}
+						{% if products.number|add:'2' <= products.paginator.num_pages %}
+						<li class="page-item">
+							<a class="page-link" href="{% url 'store' %}?page={{ products.number|add:'2' }}">&hellip;</a>
+						</li>
+						{% endif %}
+						{% if products.has_next %}
+						<li class="page-item">
+							<a class="page-link" href="{% url 'store' %}?page={{products.next_page_number}}">Trang Kế Tiếp</a>
+						</li>
+						<li class="page-item">
+							<a class="page-link"
+								href="{% url 'store' %}?page={{ products.paginator.num_pages }}">Trang Cuối Cùng</a>
+						</li>
+						{% else %}
+						<li class="page-item disabled">
+							<a class="page-link" href="#">Trang Kế Tiếp</a>
+						</li>
+						<li class="page-item disabled">
+							<a class="page-link" href="#">Trang Cuối Cùng</a>
+						</li>
+						{% endif %}
+					</ul>
+				</nav>
+				{% endif %}
+			</main>
+			<!-- col.// -->
+		</div>
+	</div>
+	<!-- container .//  -->
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+{% endblock %}
