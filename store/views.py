@@ -1,3 +1,4 @@
+import django
 from orders.models import OrderProduct
 from django.contrib import messages
 from store.forms import ReviewForm
@@ -36,6 +37,8 @@ def store(request, category_slug=None):
     links = Category.objects.all()
 
     paged_products = nomalize_list_of_product_price(paged_products)
+    
+    
     context = {
         'products': paged_products,
         'product_count': product_count,
