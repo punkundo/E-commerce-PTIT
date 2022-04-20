@@ -10,6 +10,9 @@ from store.models import Product, ReviewRating
 from carts.models import Cart, CartItem
 from category.models import Category
 from carts.views import _cart_id
+import logging 
+
+logger = logging.getLogger(__name__)
 
 def nomalize_price(price):
     price = f"{price:,}"
@@ -114,4 +117,5 @@ def submit_review(request, product_id):
                 data.user_id = request.user.id
                 data.save()
                 messages.success(request, "Thank you! Your review has been submitted.")
+                logger.debug(f"Customer commented: {data.subject} - {data.rating} - {data.review}")
                 return redirect(url)
