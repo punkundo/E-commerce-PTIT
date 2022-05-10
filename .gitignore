@@ -1,0 +1,7 @@
+logs
+venv
+media
+static 
+.env
+__pycache__/
+server.log
